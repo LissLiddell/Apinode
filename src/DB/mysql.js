@@ -37,7 +37,8 @@ conMysql()
 function all(table){
     return new Promise( (resolve, reject) => {
         conection.query(`SELECT * FROM ${table}`, (error, result) => {
-            if(error)
+            if(error) return reject(error)
+                resolve(result)
         })
     })
 }

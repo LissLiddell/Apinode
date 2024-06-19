@@ -7,7 +7,9 @@ const router = express.Router()
 
 router.get('/', function (req,res) {
     const all = controller.all()
-    response.success(req, res, all, 200)
+    .then((items) =>{
+         response.success(req, res, items, 200)
+     })
 })
 
 module.exports = router
