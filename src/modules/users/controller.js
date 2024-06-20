@@ -1,4 +1,5 @@
 const TABLE = 'user'
+const auth = require('../auth')
 module.exports = function (dbInyected) {
 
     let db = dbInyected
@@ -11,8 +12,30 @@ module.exports = function (dbInyected) {
         return db.all(TABLE)
     }
     
-    function add (body) {
-        return db.add(TABLE, body)
+    async function add (body) {
+        const user = {
+            id: body.id,
+            name: body.name,
+            active: body.active
+        }
+        const response = await db.add(TABLE, user)
+        var insertId = 0
+        if(body.id == 0){
+            insertId = response.insertId
+        }else{
+            insertId = body.id
+        }
+
+        var response2 = ''
+        if(body.user || body.password){
+            response2 = await  auth.add({
+                id: insertId,
+                user: body.user,
+                password: body.password
+            })
+        }
+
+        return response2
     }
     
     function del (body) {
