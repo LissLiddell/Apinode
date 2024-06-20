@@ -36,7 +36,7 @@ async function add (req,res, next) {
 async function del (req,res, next) {
     try{
         const all = await controller.del(req.body)
-        response.success(req, res, 'Item eliminado satisfactoriamente', 200)
+        response.success(req, res, 'Contact deleted successfully', 200)
     }catch(err){
         next(err)
     }

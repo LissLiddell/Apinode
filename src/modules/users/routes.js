@@ -14,9 +14,9 @@ async function add (req,res, next) {
     try{
         const all = await controller.add(req.body)
         if(req.body.id == 0){
-            message = 'Contact Saved'
+            message = 'User Saved'
         }else{
-            message = 'Contact modified successfully'
+            message = 'User modified successfully'
         }
         response.success(req, res, message, 201)
     }catch(err){
@@ -36,7 +36,7 @@ async function add (req,res, next) {
 async function del (req,res, next) {
     try{
         const all = await controller.del(req.body)
-        response.success(req, res, 'Item eliminado satisfactoriamente', 200)
+        response.success(req, res, 'User deleted successfully', 200)
     }catch(err){
         next(err)
     }
