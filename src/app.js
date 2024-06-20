@@ -4,6 +4,7 @@ const morgan = require('morgan')
 
 const contacts = require('./modules/contacts/routes')
 const users = require('./modules/users/routes')
+const auth = require('./modules/auth/routes')
 const error = require('./red/errors')
 
 const app = express()
@@ -19,6 +20,7 @@ app.set('port', config.app.port)
 //Routes
 app.use('/api/contacts', contacts)
 app.use('/api/users', users)
+app.use('/api/auth', auth)
 app.use(error)
 
 module.exports = app

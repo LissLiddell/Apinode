@@ -1,6 +1,7 @@
-const auth = require('.')
-
+const bcrypt = require('bcrypt')
+const auth = require('../../auth')
 const TABLE = 'auth'
+
 module.exports = function (dbInyected) {
 
     let db = dbInyected
@@ -8,8 +9,22 @@ module.exports = function (dbInyected) {
     if(!db){
         db = require('../../DB/mysql')
     }
+
+    async function login(user, password){
+        const data = await db.query(TABLE, {user: user})
+
+        return bcrypt.compare(password, data.password)
+            .then(result => {
+                if(result === true){
+                   //generate token 
+                   return auth.assignToken({ ...data})
+                }else{
+                    throw new Error('Invalid Data')
+                }
+            }) 
+    }
     
-    function add (data) {
+    async function add (data) {
 
         const authData = {
             id: data.id,
@@ -20,12 +35,14 @@ module.exports = function (dbInyected) {
         }
 
         if(data.password){
-            authData.password = data.password
+            //encript password
+            authData.password = await bcrypt.hash(data.password.toString(), 5)
         }
         return db.add(TABLE, authData)
     }
 
     return {
         add,
+        login
     }
 }

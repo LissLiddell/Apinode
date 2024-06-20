@@ -58,6 +58,14 @@ function del(table, data){
     })
 }
 
+function query(table, query){
+    return new Promise( (resolve, reject) => {
+        conection.query(`SELECT * FROM ${table} WHERE ?`, query, (error, result) => {
+            return error ? reject(error) : resolve(result[0])
+        })
+    })
+}
+
 function one(table, id){
     return new Promise( (resolve, reject) => {
         conection.query(`SELECT * FROM ${table} WHERE id=${id}`, (error, result) => {
@@ -70,5 +78,6 @@ module.exports = {
     all,
     add,
     del,
+    query,
     one
 }
