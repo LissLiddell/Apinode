@@ -1,13 +1,15 @@
 const express = require('express')
 
-const response = require('../../red/response')
 const controller = require('./index')
+const response = require('../../red/response')
+const security = require('./security')
+
 
 const router = express.Router()
 
-router.post('/', add)
+router.post('/', add, security())
 router.get('/', all)
-router.put('/', del)
+router.put('/', del, security())
 router.get('/:id', one)
 
 async function add (req,res, next) {
