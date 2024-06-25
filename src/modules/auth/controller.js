@@ -11,19 +11,16 @@ module.exports = function (dbInyected) {
     }
 
     async function login(user, password){
-
-        console.log('Login Request:', JSON.stringify({ user, password }));
-        const data = await db.query(TABLE, {user: user})
-
+        const data = await db.query(TABLE, {user: user})       
         return bcrypt.compare(password, data.password)
             .then(result => {
-                if(result === true){
+                console.log(result)
+                if(result === true)
                    //generate token 
                    return auth.assignToken({ ...data})
-                }else{
-                    throw new Error('Invalid Data')
-                }
-            }) 
+                else
+                    return null
+            })
     }
     
     async function add (data) {

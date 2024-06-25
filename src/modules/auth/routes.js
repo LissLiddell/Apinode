@@ -10,7 +10,8 @@ router.post('/login', login)
 async function login (req, res, next) {
     try{
         const token = await controller.login(req.body.user, req.body.password)
-        response.success(req, res, token, 200)
+        res.json({token: token, status: token ? 200 : 500, error: token == null})
+        res.json({'token': true})
     }catch(err){
         next(err)
     }
