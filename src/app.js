@@ -1,6 +1,7 @@
 const express = require('express')
 const config = require('./config')
 const morgan = require('morgan')
+var cors = require('cors')
 
 const contacts = require('./modules/contacts/routes')
 const users = require('./modules/users/routes')
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true}))
 app.set('port', config.app.port)
 
 //Routes
+app.use(cors())
 app.use('/api/contacts', contacts)
 app.use('/api/users', users)
 app.use('/api/auth', auth)

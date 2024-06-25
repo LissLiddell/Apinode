@@ -11,6 +11,8 @@ module.exports = function (dbInyected) {
     }
 
     async function login(user, password){
+
+        console.log('Login Request:', JSON.stringify({ user, password }));
         const data = await db.query(TABLE, {user: user})
 
         return bcrypt.compare(password, data.password)
@@ -25,7 +27,7 @@ module.exports = function (dbInyected) {
     }
     
     async function add (data) {
-
+        console.log('Add Request:', JSON.stringify(data));
         const authData = {
             id: data.id,
         }
@@ -37,8 +39,11 @@ module.exports = function (dbInyected) {
         if(data.password){
             //encript password
             authData.password = await bcrypt.hash(data.password.toString(), 5)
+        }else{
+            console.log("No encontrado")
         }
-        return db.add(TABLE, authData)
+        return db.add(TABLE, authData )
+
     }
 
     return {

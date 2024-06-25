@@ -8,19 +8,21 @@ function assignToken(data){
     return jwt.sign(data, secret)
 }
 
-function verifyToken(token){
-    return jwt.verify(token, secret)
-}
-
 const checkToken = {
     confirmToken: function(req, id){
         const decodified = decodifiedHeader(req)
-
-        if(decodified.id !== id){
-           throw error("you do not have privileges to perform that action", 401) 
-        }
     }
 }
+
+function decodifiedHeader(req){
+    const authorization = req.headers.authorization || ''
+    const token = getToken(authorization)
+    const decodified = verifyToken(token)
+
+    req.user = decodified
+
+    return decodified
+} 
 
 function getToken(authorization){
     if(!authorization){
@@ -35,15 +37,9 @@ function getToken(authorization){
     return token
 }
 
-function decodifiedHeader(req){
-    const authorization = req.headers.authorization || ''
-    const token = getToken(authorization)
-    const decodified = verifyToken(token)
-
-    req.user = decodified
-
-    return decodified
-} 
+function verifyToken(token){
+    return jwt.verify(token, secret)
+}
 
 module.exports = {
     assignToken,
