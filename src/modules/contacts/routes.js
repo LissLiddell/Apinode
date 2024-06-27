@@ -35,8 +35,12 @@ async function add (req,res, next) {
 
 async function del (req,res, next) {
     try{
-        const all = await controller.del(req.body)
-        res.json({message: 'Contact deleted successfully', status: 200 })
+        console.log('respuesta del body', req.body.data.id, req.body.data)
+        const del = await controller.del(req.body.data)
+        if(del.affectedRowsn > 0)
+            res.json({ message: 'Contact deleted successfully', status: 200 })
+        else
+            res.json({ message: 'Deleted failed', status: 500 })
     }catch(err){
         next(err)
     }
