@@ -22,7 +22,7 @@ module.exports = function (dbInyected) {
                     return null
             })
     }
-    
+
     async function add (data) {
         console.log('Add Request:', JSON.stringify(data));
         const authData = {

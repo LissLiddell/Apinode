@@ -69,7 +69,7 @@ function query(table, query){
 function one(table, id){
     return new Promise( (resolve, reject) => {
         conection.query(`SELECT * FROM ${table} WHERE id=${id}`, (error, result) => {
-            return error ? reject(error) : resolve(result)
+            return error ? reject(error) : resolve(result[0])
         })
     })
 }
