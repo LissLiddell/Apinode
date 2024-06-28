@@ -9,6 +9,7 @@ router.post('/', add)
 router.get('/', all)
 router.put('/', del)
 router.get('/:id', one)
+router.get('/', search)
 
 async function add (req,res, next) {
     try{
@@ -50,6 +51,22 @@ async function del (req,res, next) {
     try{
         const one = await controller.one(req.params.id)
         res.json({contacts: one, status: 200})
+    }catch(err){
+        next(err)
+    }
+}
+
+async function search (req, res, next) {
+    try{
+        const { q } = req.query;
+        const query = q.toLowerCase();
+        const resultados = usuarios.filter(user =>
+          user.name.toLowerCase().includes(query) ||
+          user.email.toLowerCase().includes(query) ||
+          user.age.toString().includes(query) ||
+          user.phone.toString().includes(query)
+        );
+        res.json({search: resultados, status: 200})
     }catch(err){
         next(err)
     }
