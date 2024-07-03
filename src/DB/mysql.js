@@ -50,9 +50,9 @@ function all(table){
     })
 }
 
-function del(table, data){
+function del(table, id){
     return new Promise( (resolve, reject) => {
-        conection.query(`DELETE FROM ${table} WHERE id= ?`, data.id, (error, result) => {
+        conection.query(`DELETE FROM ${table} WHERE id= ?`, id , (error, result) => {
             return error ? reject(error) : resolve(result)
         })
     })

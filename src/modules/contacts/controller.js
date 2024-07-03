@@ -15,8 +15,12 @@ module.exports = function (dbInyected) {
         return db.add(TABLE, body)
     }
     
-    function del (body) {
-        return db.del(TABLE, body)
+    function del(id) {
+        if (id) {
+            return db.del(TABLE, id);
+        } else {
+            throw new Error('Invalid body or missing id');
+        }
     }
     
     function one (id) {
