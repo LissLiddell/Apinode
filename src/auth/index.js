@@ -11,6 +11,10 @@ function assignToken(data){
 const checkToken = {
     confirmToken: function(req, id){
         const decodified = decodifiedHeader(req)
+
+        if(decodified.id !== id){
+            throw new Error("Do not have permission")
+        }
     }
 }
 

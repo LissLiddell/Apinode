@@ -35,9 +35,8 @@ async function add (req,res, next) {
 
 async function del (req,res, next) {
     try{
-        console.log('respuesta del body', req.body.data.id, req.body.data)
         const del = await controller.del(req.body.data)
-        if(del.affectedRowsn > 0)
+        if(del.affectedRows > 0)
             res.json({ message: 'Contact deleted successfully', status: 200 })
         else
             res.json({ message: 'Deleted failed', status: 500 })
@@ -54,6 +53,5 @@ async function del (req,res, next) {
         next(err)
     }
 }
-
 
 module.exports = router
