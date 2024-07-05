@@ -13,7 +13,7 @@ const checkToken = {
         const decodified = decodifiedHeader(req)
 
         if(decodified.id !== id){
-            throw new Error("Do not have permission")
+            throw new Error("Do not have permission", 401)
         }
     }
 }
