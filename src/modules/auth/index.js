@@ -1,4 +1,3 @@
-const db = require('../../DB/mysql')
-const ctrl = require('./controller')
+const ctrl = require('./controller'); // Importa el controlador
 
-module.exports = ctrl(db)
+module.exports = ctrl; // Exporta el controlador tal como está

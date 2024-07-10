@@ -6,6 +6,9 @@ const config = {
     options: {
         encrypt: false,
         enableArithAbort: true
+    },
+    jwt:{
+        secret: process.env.JET_SECRET || 'topsecret'
     }
 }
 

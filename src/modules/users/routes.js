@@ -18,6 +18,16 @@ async function add (req,res, next) {
     try {
         let pool = await sql.connect(config);
         let { nickname, fechaRegistro, correo, Estatus, contra } = req.body;
+
+         // Verificar si el nickname ya existe
+         let checkNickname = await pool.request()
+         .input('nickname', sql.VarChar(30), nickname)
+         .query('SELECT COUNT(*) as count FROM usuarioLiss WHERE Nickname = @nickname')
+         
+        if (checkNickname.recordset[0].count > 0) {
+            return res.status(400).send('El nickname ya está en uso');
+        }
+
         const saltRounds = 5;
         const hashedPassword = await bcrypt.hash(contra, saltRounds);
         let result = await pool.request()

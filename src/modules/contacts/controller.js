@@ -1,4 +1,4 @@
-const TABLE = 'contacto'
+const TABLE = 'contactoLiss'
 module.exports = function (dbInyected) {
 
     let db = dbInyected

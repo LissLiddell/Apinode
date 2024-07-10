@@ -1,20 +1,32 @@
-const express = require('express')
+const express = require('express');
+const router = express.Router();
+const controller = require('./controller'); // Asegúrate de importar el controlador correcto
+const sql = require('mssql');
+const config = require('../../config');
 
-const response = require('../../red/response')
-const controller = require('./index')
+router.post('/login', async (req, res, next) => {
+    try {
+        console.log('Cuerpo de la solicitud:', req.body);
+        const { nickname, contra } = req.body;
 
-const router = express.Router()
+        // Verificar que user y password estén presentes y sean cadenas válidas
+        if (!nickname || typeof nickname !== 'string' || nickname.trim() === '') {
+            return res.status(400).json({ error: 'El parámetro user es inválido' });
+        }
 
-router.post('/login', login)
+        if (!contra || typeof contra !== 'string' || contra.trim() === '') {
+            return res.status(400).json({ error: 'El parámetro password es inválido' });
+        }
 
-async function login (req, res, next) {
-    try{
-        const token = await controller.login(req.body.user, req.body.password)
-        res.json({token: token, status: token ? 200 : 500, error: token == null})
-        res.json({'token': true})
-    }catch(err){
-        next(err)
+        const objUser = await controller.login(nickname, contra);
+        if (objUser.token) {
+            res.json({IdUsuario:objUser.IdUsuario, token: objUser.token, status: objUser.token ? 200 : 500, error: objUser.token == null})
+        } else {
+            res.status(500).json({ error: 'Credenciales inválidas' });
+        }
+    } catch (err) {
+        next(err); // Pasar el error al siguiente middleware de manejo de errores
     }
-}
+});
 
-module.exports = router
+module.exports = router;
